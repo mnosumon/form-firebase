@@ -19,7 +19,15 @@ const Ragistration = () => {
   });
 
   let storeYear = new Date().getFullYear();
+
+  let days = () => {
+    return new Date(formik.values.bYear, formik.values.bMonth, 0).getDate();
+  };
+  let day = Array.from(new Array(days()), (val, index) => 1 + index);
+
+  let month = Array.from(new Array(12), (val, index) => 1 + index);
   let years = Array.from(new Array(105), (val, index) => storeYear - index);
+
   let { errors, touched } = formik;
 
   return (
@@ -80,7 +88,9 @@ const Ragistration = () => {
                 name="bDate"
                 className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
               >
-                <option value="">8</option>
+                {day.map((item, index) => (
+                  <option key={index}>{item}</option>
+                ))}
               </select>
               <select
                 onChange={formik.handleChange}
@@ -88,7 +98,9 @@ const Ragistration = () => {
                 name="bMonth"
                 className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
               >
-                <option value="">8</option>
+                {month.map((item, index) => (
+                  <option key={index}>{item}</option>
+                ))}
               </select>
               <select
                 onChange={formik.handleChange}
