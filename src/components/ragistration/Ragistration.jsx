@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { registrationWarning } from "../registrationWarning/registrationWarning";
 
+let initialState = {
+  fullName: "",
+  email: "",
+  password: "",
+  bDate: new Date().getDate(),
+  bMonth: new Date().getMonth() + 1,
+  bYear: new Date().getFullYear(),
+  gender: "",
+};
+
 const Ragistration = () => {
-  let initialValues = {
-    fullName: "",
-    email: "",
-    password: "",
-    bDate: new Date().getDate(),
-    bMonth: new Date().getMonth() + 1,
-    bYear: new Date().getFullYear(),
-  };
+  let [ageValidation, setAgeValidation] = useState("");
 
   const formik = useFormik({
-    initialValues,
-    onSubmit: console.log("submited"),
+    initialValues: initialState,
     validationSchema: registrationWarning,
+    onSubmit: () => {
+      let currentDate = new Date();
+      let pickedDate = new Date(
+        formik.values.bYear,
+        formik.values.bMonth - 1,
+        formik.values.bDate
+      );
+      let adult = new Date(1970 + 18, 0, 1);
+      let oldMan = new Date(1970 + 70, 0, 1);
+      if (currentDate - pickedDate < adult) {
+        return setAgeValidation("You are not 18+");
+      } else if (currentDate - pickedDate > oldMan) {
+        return setAgeValidation("You are also 70+");
+      } else {
+        return setAgeValidation("");
+      }
+    },
   });
 
   let storeYear = new Date().getFullYear();
@@ -113,9 +132,39 @@ const Ragistration = () => {
                 ))}
               </select>
             </div>
+            {ageValidation && (
+              <div className="text-sm  mb-3 text-red-500">{ageValidation}</div>
+            )}
           </div>
           <div className="">
-            <h3 className="text-xl">Select your gender</h3>
+            <h3 className="text-xl mt-3">Select your gender</h3>
+            <div className="flex w-2/3 justify-between items-center my-3">
+              <div className="flex gap-5 items-center ">
+                <label htmlFor="male">Male</label>
+                <input
+                  onChange={formik.handleChange}
+                  value="male"
+                  type="radio"
+                  name="gender"
+                  id="male"
+                  className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
+                />
+              </div>
+              <div className="flex gap-5 items-center">
+                <label htmlFor="female">Female</label>
+                <input
+                  onChange={formik.handleChange}
+                  value="female"
+                  type="radio"
+                  name="gender"
+                  id="female"
+                  className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
+                />
+              </div>
+            </div>
+            {errors.gender && touched.gender && (
+              <div className="text-sm  mb-3 text-red-500">{errors.gender}</div>
+            )}
           </div>
           <button
             type="submit"

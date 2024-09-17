@@ -8,4 +8,5 @@ export const registrationWarning = Yup.object({
     .email("Invalid email address")
     .required("Please enter a valide email"),
   password: Yup.string().min(6).required("Please enter a valide password"),
+  gender: Yup.string().required("select your gender"),
 });
