@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { registrationWarning } from "../registrationWarning/registrationWarning";
+import { registrationWarning } from "../registrationWarning/RegistrationWarning";
 
 let initialState = {
   fullName: "",
@@ -48,6 +48,8 @@ const Ragistration = () => {
   let years = Array.from(new Array(105), (val, index) => storeYear - index);
 
   let { errors, touched } = formik;
+
+  console.log(formik);
 
   return (
     <div className="flex justify-between w-1/2 mx-auto p-8 shadow-md rounded-md">
