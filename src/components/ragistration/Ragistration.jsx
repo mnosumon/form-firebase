@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { registrationWarning } from "../registrationWarning/RegistrationWarning";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 let initialState = {
   fullName: "",
@@ -14,29 +21,85 @@ let initialState = {
 
 const Ragistration = () => {
   let [ageValidation, setAgeValidation] = useState("");
+  let [loader, setLoader] = useState(false);
+  const auth = getAuth();
 
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: registrationWarning,
     onSubmit: () => {
-      let currentDate = new Date();
-      let pickedDate = new Date(
-        formik.values.bYear,
-        formik.values.bMonth - 1,
-        formik.values.bDate
-      );
-      let adult = new Date(1970 + 18, 0, 1);
-      let oldMan = new Date(1970 + 70, 0, 1);
-      if (currentDate - pickedDate < adult) {
-        return setAgeValidation("You are not 18+");
-      } else if (currentDate - pickedDate > oldMan) {
-        return setAgeValidation("You are also 70+");
-      } else {
-        return setAgeValidation("");
-      }
+      ageValidate();
+      authentication();
     },
   });
-
+  let authentication = () => {
+    createUserWithEmailAndPassword(
+      auth,
+      formik.values.email,
+      formik.values.password,
+      setLoader(true)
+    )
+      .then(() => {
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            toast.success("Confirm your email varification", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            setLoader(false);
+          })
+          .catch((error) => {
+            toast.error(error.message, {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          });
+      })
+      .catch((error) => {
+        setLoader(false);
+        if (error.message.includes("auth/email-already-in-use")) {
+          toast.warn("This email already used", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
+  };
+  let ageValidate = () => {
+    let currentDate = new Date();
+    let pickedDate = new Date(
+      formik.values.bYear,
+      formik.values.bMonth - 1,
+      formik.values.bDate
+    );
+    let adult = new Date(1970 + 18, 0, 1);
+    let oldMan = new Date(1970 + 70, 0, 1);
+    if (currentDate - pickedDate < adult) {
+      return setAgeValidation("You are not 18+");
+    } else if (currentDate - pickedDate > oldMan) {
+      return setAgeValidation("You are also 70+");
+    } else {
+      return setAgeValidation("");
+    }
+  };
   let storeYear = new Date().getFullYear();
 
   let days = () => {
@@ -49,10 +112,9 @@ const Ragistration = () => {
 
   let { errors, touched } = formik;
 
-  console.log(formik);
-
   return (
     <>
+      <ToastContainer />
       <h2 className="text-4xl font-bold mb-5 text-orange-500">
         Ragistration form
       </h2>
@@ -167,10 +229,11 @@ const Ragistration = () => {
           )}
         </div>
         <button
+          disabled={loader}
           type="submit"
           className="text-white text-lg rounded-md bg-orange-600 px-7 py-3 w-full mt-3"
         >
-          Sign Up
+          {loader ? <BeatLoader color="#fff" /> : "Sign up"}
         </button>
       </form>
     </>

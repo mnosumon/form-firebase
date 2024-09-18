@@ -1,6 +1,6 @@
 import React from "react";
-import Ragistration from "./components/ragistration/Ragistration";
-import RegistretionForm from "./components/ragistration/RegistretionForm";
+import "react-toastify/dist/ReactToastify.css";
+import RegistretionForm from "./pages/registration/RegistretionForm";
 
 const App = () => {
   return (

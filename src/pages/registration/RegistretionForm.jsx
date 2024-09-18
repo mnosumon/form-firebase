@@ -1,5 +1,5 @@
 import React from "react";
-import Ragistration from "./Ragistration";
+import Ragistration from "../../components/ragistration/Ragistration";
 import Lottie from "lottie-react";
 import RegAnimation from "../../animation/resAnimation.json";
 
