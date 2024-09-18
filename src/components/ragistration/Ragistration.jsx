@@ -52,131 +52,128 @@ const Ragistration = () => {
   console.log(formik);
 
   return (
-    <div className="flex justify-between w-1/2 mx-auto p-8 shadow-md rounded-md">
-      <div className="w-[48%]"></div>
-      <div className="w-[48%]">
-        <h2 className="text-4xl font-bold mb-5 text-orange-500">
-          Ragistration form
-        </h2>
-        <form onSubmit={formik.handleSubmit}>
-          <input
-            onChange={formik.handleChange}
-            value={formik.values.fullName}
-            autoComplete="off"
-            name="fullName"
-            type="text"
-            className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
+    <>
+      <h2 className="text-4xl font-bold mb-5 text-orange-500">
+        Ragistration form
+      </h2>
+      <form onSubmit={formik.handleSubmit}>
+        <input
+          onChange={formik.handleChange}
+          value={formik.values.fullName}
+          autoComplete="off"
+          name="fullName"
+          type="text"
+          className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
              text-lg font-sans mb-3"
-            placeholder="Enter your name"
-          />
-          {errors.fullName && touched.fullName && (
-            <div className="text-sm  mb-3 text-red-500">{errors.fullName}</div>
-          )}
+          placeholder="Enter your name"
+        />
+        {errors.fullName && touched.fullName && (
+          <div className="text-sm  mb-3 text-red-500">{errors.fullName}</div>
+        )}
 
-          <input
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            autoComplete="off"
-            name="email"
-            type="email"
-            className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
+        <input
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          autoComplete="off"
+          name="email"
+          type="email"
+          className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
              text-lg font-sans mb-3"
-            placeholder="Enter your email"
-          />
-          {errors.email && touched.email && (
-            <div className="text-sm  mb-3 text-red-500">{errors.email}</div>
-          )}
-          <input
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            autoComplete="off"
-            name="password"
-            type="password"
-            className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
+          placeholder="Enter your email"
+        />
+        {errors.email && touched.email && (
+          <div className="text-sm  mb-3 text-red-500">{errors.email}</div>
+        )}
+        <input
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          autoComplete="off"
+          name="password"
+          type="password"
+          className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
              text-lg font-sans mb-3"
-            placeholder="Enter your password"
-          />
-          {errors.password && touched.password && (
-            <div className="text-sm  mb-3 text-red-500">{errors.password}</div>
-          )}
+          placeholder="Enter your password"
+        />
+        {errors.password && touched.password && (
+          <div className="text-sm  mb-3 text-red-500">{errors.password}</div>
+        )}
 
-          <div className="">
-            <h3 className="text-xl">Select your birth date</h3>
-            <div className="flex justify-between items-center my-3">
-              <select
-                onChange={formik.handleChange}
-                value={formik.values.bDate}
-                name="bDate"
-                className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
-              >
-                {day.map((item, index) => (
-                  <option key={index}>{item}</option>
-                ))}
-              </select>
-              <select
-                onChange={formik.handleChange}
-                value={formik.values.bMonth}
-                name="bMonth"
-                className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
-              >
-                {month.map((item, index) => (
-                  <option key={index}>{item}</option>
-                ))}
-              </select>
-              <select
-                onChange={formik.handleChange}
-                value={formik.values.bYear}
-                name="bYear"
-                className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
-              >
-                {years.map((item, index) => (
-                  <option key={index}>{item}</option>
-                ))}
-              </select>
-            </div>
-            {ageValidation && (
-              <div className="text-sm  mb-3 text-red-500">{ageValidation}</div>
-            )}
+        <div className="">
+          <h3 className="text-xl">Select your birth date</h3>
+          <div className="flex justify-between items-center my-3">
+            <select
+              onChange={formik.handleChange}
+              value={formik.values.bDate}
+              name="bDate"
+              className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
+            >
+              {day.map((item, index) => (
+                <option key={index}>{item}</option>
+              ))}
+            </select>
+            <select
+              onChange={formik.handleChange}
+              value={formik.values.bMonth}
+              name="bMonth"
+              className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
+            >
+              {month.map((item, index) => (
+                <option key={index}>{item}</option>
+              ))}
+            </select>
+            <select
+              onChange={formik.handleChange}
+              value={formik.values.bYear}
+              name="bYear"
+              className="border border-yellow-500 rounded-md  w-[30%] outline-none p-2 appearence-none"
+            >
+              {years.map((item, index) => (
+                <option key={index}>{item}</option>
+              ))}
+            </select>
           </div>
-          <div className="">
-            <h3 className="text-xl mt-3">Select your gender</h3>
-            <div className="flex w-2/3 justify-between items-center my-3">
-              <div className="flex gap-5 items-center ">
-                <label htmlFor="male">Male</label>
-                <input
-                  onChange={formik.handleChange}
-                  value="male"
-                  type="radio"
-                  name="gender"
-                  id="male"
-                  className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
-                />
-              </div>
-              <div className="flex gap-5 items-center">
-                <label htmlFor="female">Female</label>
-                <input
-                  onChange={formik.handleChange}
-                  value="female"
-                  type="radio"
-                  name="gender"
-                  id="female"
-                  className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
-                />
-              </div>
+          {ageValidation && (
+            <div className="text-sm  mb-3 text-red-500">{ageValidation}</div>
+          )}
+        </div>
+        <div className="">
+          <h3 className="text-xl mt-3">Select your gender</h3>
+          <div className="flex w-2/3 justify-between items-center my-3">
+            <div className="flex gap-5 items-center ">
+              <label htmlFor="male">Male</label>
+              <input
+                onChange={formik.handleChange}
+                value="male"
+                type="radio"
+                name="gender"
+                id="male"
+                className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
+              />
             </div>
-            {errors.gender && touched.gender && (
-              <div className="text-sm  mb-3 text-red-500">{errors.gender}</div>
-            )}
+            <div className="flex gap-5 items-center">
+              <label htmlFor="female">Female</label>
+              <input
+                onChange={formik.handleChange}
+                value="female"
+                type="radio"
+                name="gender"
+                id="female"
+                className="py-3 px-6 w-full font-gilroyRegular focus:outline-none border border-lineColor rounded-md"
+              />
+            </div>
           </div>
-          <button
-            type="submit"
-            className="text-white text-lg rounded-md bg-orange-600 px-7 py-3 w-full mt-3"
-          >
-            Sign Up
-          </button>
-        </form>
-      </div>
-    </div>
+          {errors.gender && touched.gender && (
+            <div className="text-sm  mb-3 text-red-500">{errors.gender}</div>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="text-white text-lg rounded-md bg-orange-600 px-7 py-3 w-full mt-3"
+        >
+          Sign Up
+        </button>
+      </form>
+    </>
   );
 };
 
