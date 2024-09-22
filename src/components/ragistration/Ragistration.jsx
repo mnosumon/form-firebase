@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { registrationWarning } from "../registrationWarning/RegistrationWarning";
+import { registrationWarning } from "../../warning/registrationWarning/RegistrationWarning";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import { Link, useNavigate } from "react-router-dom";
 
 let initialState = {
   fullName: "",
@@ -23,6 +24,7 @@ const Ragistration = () => {
   let [ageValidation, setAgeValidation] = useState("");
   let [loader, setLoader] = useState(false);
   const auth = getAuth();
+  let navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -44,7 +46,7 @@ const Ragistration = () => {
           .then(() => {
             toast.success("Confirm your email varification", {
               position: "top-right",
-              autoClose: 1000,
+              autoClose: 2000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -52,6 +54,9 @@ const Ragistration = () => {
               progress: undefined,
               theme: "colored",
             });
+            setTimeout(() => {
+              navigate("/login");
+            }, 3000);
             setLoader(false);
           })
           .catch((error) => {
@@ -236,6 +241,14 @@ const Ragistration = () => {
           {loader ? <BeatLoader color="#fff" /> : "Sign up"}
         </button>
       </form>
+      <div className="mt-5">
+        <p className="text-xl">
+          You have already account, please{" "}
+          <Link to="/login" className="text-green-500 hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </div>
     </>
   );
 };
