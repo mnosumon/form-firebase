@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { loginWarning } from "../../warning/loginWarning/loginWarning";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logeddInUser } from "../../features/slice/loginSlice/loginSlice";
 
 let initialState = {
   email: "",
@@ -16,6 +17,8 @@ const LoginForm = () => {
   let [loader, setLoader] = useState(false);
   const auth = getAuth();
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: loginWarning,
@@ -42,6 +45,8 @@ const LoginForm = () => {
             progress: undefined,
             theme: "colored",
           });
+          dispatch(logeddInUser(userItem.user));
+          localStorage.setItem("users", JSON.stringify(userItem.user));
           setTimeout(() => {
             navigate("/");
           }, 2000);
