@@ -12,7 +12,7 @@ export const loginSlice = createSlice({
       state.user = actions.payload;
     },
     logoutUser: (state) => {
-      state = null;
+      state.user = null;
     },
   },
 });
