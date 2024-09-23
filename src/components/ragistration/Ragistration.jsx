@@ -9,6 +9,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 
 let initialState = {
   fullName: "",
@@ -22,6 +24,7 @@ let initialState = {
 
 const Ragistration = () => {
   let [ageValidation, setAgeValidation] = useState("");
+  let [passwordShow, setPasswordShow] = useState(false);
   let [loader, setLoader] = useState(false);
   const auth = getAuth();
   let navigate = useNavigate();
@@ -117,6 +120,14 @@ const Ragistration = () => {
 
   let { errors, touched } = formik;
 
+  let handlePsswordShow = () => {
+    if (!passwordShow) {
+      setPasswordShow(true);
+    } else {
+      setPasswordShow(false);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -151,16 +162,29 @@ const Ragistration = () => {
         {errors.email && touched.email && (
           <div className="text-sm  mb-3 text-red-500">{errors.email}</div>
         )}
-        <input
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          autoComplete="off"
-          name="password"
-          type="password"
-          className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md 
-             text-lg font-sans mb-3"
-          placeholder="Enter your password"
-        />
+        <div
+          className={`${
+            errors.password && touched.password ? "mb-1" : "mb-3"
+          } `}
+        >
+          <div className="relative">
+            <input
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              autoComplete="off"
+              name="password"
+              type={passwordShow ? "text" : "password"}
+              className="w-full px-5 py-2 outline-none border border-sky-800 rounded-md text-lg font-sans"
+              placeholder="Enter your password"
+            />
+            <div
+              onClick={handlePsswordShow}
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+            >
+              {passwordShow ? <FaRegEyeSlash /> : <IoEyeOutline />}
+            </div>
+          </div>
+        </div>
         {errors.password && touched.password && (
           <div className="text-sm  mb-3 text-red-500">{errors.password}</div>
         )}
