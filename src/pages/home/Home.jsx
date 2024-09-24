@@ -5,7 +5,7 @@ import Friends from "../../components/home/Friends";
 
 const Home = () => {
   return (
-    <div className=" rounded-lg shadow-md">
+    <div className="rounded-lg shadow-md">
       <div className="grid grid-cols-[2fr,5fr] gap-x-16 bg-[#FFFFFF]">
         <div className="w-full bg-[#FBFBFB]  overflow-y-auto">
           <AllUser />
