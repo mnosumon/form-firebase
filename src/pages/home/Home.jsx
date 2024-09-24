@@ -1,15 +1,20 @@
 import React from "react";
 import AllUser from "../../components/home/AllUser";
+import FriendRequest from "../../components/home/FriendRequest";
 
 const Home = () => {
   return (
-    <div className="grid grid-cols-[2fr,5fr] gap-x-16">
-      <div className="w-full bg-[#FBFBFB]">
-        <AllUser />
-      </div>
-      <div className="">
-        <div className="">Friend request</div>
-        <div className="">Message</div>
+    <div className=" rounded-lg shadow-md">
+      <div className="grid grid-cols-[2fr,5fr] gap-x-16 bg-[#FFFFFF]">
+        <div className="w-full bg-[#FBFBFB]  overflow-y-auto">
+          <AllUser />
+        </div>
+        <div className="w-full flex justify-between py-4">
+          <div className="w-[48%] shadow-lg rounded-lg  h-[560px] pb-3 overflow-y-auto">
+            <FriendRequest />
+          </div>
+          <div className="w-[48%]">Message</div>
+        </div>
       </div>
     </div>
   );

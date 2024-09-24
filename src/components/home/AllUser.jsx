@@ -1,7 +1,6 @@
 import React from "react";
 import { AddFriendIcon } from "../../assets/svg/AddFriendIcon";
 import Title2 from "../utilities/Title2";
-
 const AllUser = () => {
   return (
     <div className="mt-7 px-7">
@@ -53,5 +52,4 @@ const AllUser = () => {
     </div>
   );
 };
-
 export default AllUser;
