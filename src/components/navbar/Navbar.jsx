@@ -40,7 +40,7 @@ const Navbar = () => {
               >
                 <CameraIcon />
               </div>
-              {createPortal(show && <Modal />, document.body)}
+              {createPortal(show && <Modal setShow={setShow} />, document.body)}
             </div>
             <div className="">
               <h2 className="text-white">Md Nuruddin Osman</h2>

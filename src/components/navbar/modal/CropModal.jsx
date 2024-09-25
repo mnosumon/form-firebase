@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { GallaryIcon } from "../../../assets/svg/GallaryIcon";
 
-const Modal = ({ setShow }) => {
+const CropModal = ({ setShow }) => {
   let choeseRef = useRef();
 
   return (
@@ -37,4 +37,4 @@ const Modal = ({ setShow }) => {
   );
 };
 
-export default Modal;
+export default CropModal;
