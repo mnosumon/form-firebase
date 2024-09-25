@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { HomeIcon } from "../../assets/svg/HomeIcon";
 import { MessageIcon } from "../../assets/svg/MessageIcon";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/slice/loginSlice/loginSlice";
+import { CameraIcon } from "../../assets/svg/CameraIcon";
+import Modal from "./modal/Modal";
+import { createPortal } from "react-dom";
 
 const Navbar = () => {
+  let [show, setShow] = useState(false);
   let location = useLocation();
   const auth = getAuth();
   let navigate = useNavigate();
@@ -28,7 +32,16 @@ const Navbar = () => {
       <div className="w-3/4 mx-auto flex justify-between items-center py-3">
         <div className="">
           <div className="flex items-center gap-x-5">
-            <div className="w-16 h-16 rounded-full bg-[#D9D9D9]"></div>
+            <div className="relative">
+              <div className="w-16 h-16  rounded-full bg-[#D9D9D9]"></div>
+              <div
+                onClick={() => setShow(true)}
+                className="w-7 h-7 flex items-center justify-center bg-white rounded-full absolute right-0 bottom-0 cursor-pointer"
+              >
+                <CameraIcon />
+              </div>
+              {createPortal(show && <Modal />, document.body)}
+            </div>
             <div className="">
               <h2 className="text-white">Md Nuruddin Osman</h2>
             </div>
