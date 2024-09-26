@@ -1,8 +1,15 @@
 import React, { useRef, useState } from "react";
 import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { Cropper } from "react-cropper";
+import { FadeLoader } from "react-spinners";
 
-const CropModal = ({ setImage, cropperRef, image, getCropData }) => {
+const CropModal = ({
+  setImage,
+  cropperRef,
+  image,
+  getCropData,
+  photoLoader,
+}) => {
   return (
     <div className="fixed top-0 left-0 w-full h-screen  flex items-center justify-center">
       <div className="w-1/3 bg-[#f6dada] relative rounded-md p-4">
@@ -38,12 +45,13 @@ const CropModal = ({ setImage, cropperRef, image, getCropData }) => {
             guides={true}
           />
         </div>
-        <h4
+        <button
+          disabled={photoLoader}
           onClick={getCropData}
-          className="text-center text-lg py-2 bg-[#6CD0FB] cursor-pointer rounded-md mt-2 font-bold"
+          className="w-full text-center text-lg py-2 bg-[#6CD0FB] cursor-pointer rounded-md mt-2 font-bold"
         >
-          Upload Photo
-        </h4>
+          {photoLoader ? <FadeLoader margin={0} /> : "Upload Photo"}
+        </button>
       </div>
     </div>
   );

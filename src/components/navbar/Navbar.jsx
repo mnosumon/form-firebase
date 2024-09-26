@@ -3,14 +3,16 @@ import { HomeIcon } from "../../assets/svg/HomeIcon";
 import { MessageIcon } from "../../assets/svg/MessageIcon";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../features/slice/loginSlice/loginSlice";
 import { CameraIcon } from "../../assets/svg/CameraIcon";
 import Modal from "./modal/Modal";
 import { createPortal } from "react-dom";
+import AvaterImg from "../../assets/image/avarar.jpg";
 
 const Navbar = () => {
   let [show, setShow] = useState(false);
+  const userUid = useSelector((state) => state.login.user);
   let location = useLocation();
   const auth = getAuth();
   let navigate = useNavigate();
@@ -33,10 +35,16 @@ const Navbar = () => {
         <div className="">
           <div className="flex items-center gap-x-5">
             <div className="relative">
-              <div className="w-16 h-16  rounded-full bg-[#D9D9D9]"></div>
+              <div className="w-16 h-16  rounded-full bg-[#D9D9D9] overflow-hidden">
+                <img
+                  className="w-full h-full object-cover"
+                  src={userUid?.photoURL || AvaterImg}
+                  alt=""
+                />
+              </div>
               <div
                 onClick={() => setShow(true)}
-                className="w-7 h-7 flex items-center justify-center bg-white rounded-full absolute right-0 bottom-0 cursor-pointer"
+                className="w-5 h-5 flex items-center justify-center bg-white rounded-full absolute right-0 bottom-0 cursor-pointer"
               >
                 <CameraIcon />
               </div>

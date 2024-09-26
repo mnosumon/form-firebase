@@ -7,20 +7,23 @@ import {
   getStorage,
   ref,
   uploadString,
-  uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
-import { useSelector } from "react-redux";
+import { getAuth, updateProfile } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { logeddInUser } from "../../../features/slice/loginSlice/loginSlice";
 
 const Modal = ({ setShow }) => {
   const userUid = useSelector((state) => state.login.user);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("");
+  let [photoLoader, setPhotoLoader] = useState(false);
   const cropperRef = useRef();
   let choeseRef = useRef(null);
   const storage = getStorage();
   const storageRef = ref(storage, userUid.uid);
+  const auth = getAuth();
+  let dispatch = useDispatch();
 
   let handleChange = (e) => {
     e.preventDefault();
@@ -43,9 +46,24 @@ const Modal = ({ setShow }) => {
       const message4 = cropperRef.current?.cropper
         .getCroppedCanvas()
         .toDataURL();
+      setPhotoLoader(true);
       uploadString(storageRef, message4, "data_url").then((snapshot) => {
         getDownloadURL(storageRef).then((downloadURL) => {
-          console.log(downloadURL);
+          updateProfile(auth.currentUser, {
+            photoURL: downloadURL,
+          })
+            .then(() => {
+              dispatch(logeddInUser({ ...userUid, photoURL: downloadURL }));
+              localStorage.setItem(
+                "users",
+                JSON.stringify({ ...userUid, photoURL: downloadURL })
+              );
+              setPhotoLoader(false);
+              setShow(false);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         });
       });
     }
@@ -83,6 +101,7 @@ const Modal = ({ setShow }) => {
             cropperRef={cropperRef}
             image={image}
             getCropData={getCropData}
+            photoLoader={photoLoader}
           />
         )}
       </div>
