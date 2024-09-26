@@ -1,37 +1,49 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { CrossIcon } from "../../../assets/svg/CrossIcon";
-import { GallaryIcon } from "../../../assets/svg/GallaryIcon";
+import { Cropper } from "react-cropper";
 
-const CropModal = ({ setShow }) => {
-  let choeseRef = useRef();
-
+const CropModal = ({ setImage, cropperRef, image }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-screen bg-[#0d0b0bcc] flex items-center justify-center">
-      <div className="w-1/3 h-96 bg-white relative  rounded-md p-4">
-        <h4 className="text-center text-lg py-5 font-bold h-1/5">
-          Upload Photo
-        </h4>
-        <div
-          onClick={() => setShow(false)}
-          className="w-8 h-8 rounded-full text-[#2D2D2D] absolute right-2 top-2 cursor-pointer flex justify-center items-center"
-        >
-          <CrossIcon />
-        </div>
-
-        <div className="w-full h-4/5 border border-slate-600 mx-auto rounded-md p-3">
+    <div className="fixed top-0 left-0 w-full h-screen  flex items-center justify-center">
+      <div className="w-1/3 bg-white relative rounded-md p-4">
+        <div className="">
           <div
-            onClick={() => choeseRef.current.click()}
-            className="w-full h-full rounded-md bg-slate-200 cursor-pointer flex justify-center items-center"
+            onClick={() => setImage()}
+            className="w-8 h-8 rounded-full text-[#2D2D2D] absolute right-2 top-2 cursor-pointer flex justify-center items-center"
           >
-            <div className="flex flex-col items-center gap-2">
-              <div className="">
-                <GallaryIcon />
-              </div>
-              <h5>Choese your photo</h5>
-            </div>
-            <input ref={choeseRef} type="file" hidden />
+            <CrossIcon />
           </div>
         </div>
+        <div className="w-20 h-20 rounded-full overflow-hidden mx-auto">
+          <div
+            className="img-preview"
+            style={{ width: "100%", float: "left", height: "300px" }}
+          />
+        </div>
+        <div className="w-full border border-slate-600 mx-auto rounded-md p-2 mt-3">
+          <Cropper
+            ref={cropperRef}
+            style={{ height: "400px", width: "100%" }}
+            zoomTo={0.5}
+            initialAspectRatio={1}
+            preview=".img-preview"
+            src={image}
+            viewMode={1}
+            minCropBoxHeight={10}
+            minCropBoxWidth={10}
+            background={false}
+            responsive={true}
+            autoCropArea={1}
+            checkOrientation={false}
+            guides={true}
+          />
+        </div>
+        <h4
+          onClick={() => setImage()}
+          className="text-center text-lg py-2 bg-[#6CD0FB] cursor-pointer rounded-md mt-2 font-bold"
+        >
+          Upload Photo
+        </h4>
       </div>
     </div>
   );

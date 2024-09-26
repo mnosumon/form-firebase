@@ -1,9 +1,28 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { GallaryIcon } from "../../../assets/svg/GallaryIcon";
+import CropModal from "./CropModal";
+import "cropperjs/dist/cropper.css";
 
 const Modal = ({ setShow }) => {
-  let choeseRef = useRef();
+  const [image, setImage] = useState();
+  const [cropData, setCropData] = useState("");
+  const cropperRef = useRef();
+  let choeseRef = useRef(null);
+
+  let handleChange = (e) => {
+    let files;
+    if (e.dataTransfer) {
+      files = e.dataTransfer.files;
+    } else if (e.target) {
+      files = e.target.files;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(files[0]);
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen bg-[#0d0b0bcc] flex items-center justify-center">
@@ -17,7 +36,6 @@ const Modal = ({ setShow }) => {
         >
           <CrossIcon />
         </div>
-
         <div className="w-full h-4/5 border border-slate-600 mx-auto rounded-md p-3">
           <div
             onClick={() => choeseRef.current.click()}
@@ -29,9 +47,16 @@ const Modal = ({ setShow }) => {
               </div>
               <h5>Choese your photo</h5>
             </div>
-            <input ref={choeseRef} type="file" hidden />
+            <input ref={choeseRef} type="file" hidden onChange={handleChange} />
           </div>
         </div>
+        {image && (
+          <CropModal
+            setImage={setImage}
+            cropperRef={cropperRef}
+            image={image}
+          />
+        )}
       </div>
     </div>
   );
