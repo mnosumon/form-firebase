@@ -3,14 +3,20 @@ import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { GallaryIcon } from "../../../assets/svg/GallaryIcon";
 import CropModal from "./CropModal";
 import "cropperjs/dist/cropper.css";
+import { getStorage, ref, uploadString } from "firebase/storage";
+import { useSelector } from "react-redux";
 
 const Modal = ({ setShow }) => {
+  const userUid = useSelector((state) => state.login.user);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("");
   const cropperRef = useRef();
   let choeseRef = useRef(null);
+  const storage = getStorage();
+  const storageRef = ref(storage, userUid.uid);
 
   let handleChange = (e) => {
+    e.preventDefault();
     let files;
     if (e.dataTransfer) {
       files = e.dataTransfer.files;
@@ -22,6 +28,18 @@ const Modal = ({ setShow }) => {
       setImage(reader.result);
     };
     reader.readAsDataURL(files[0]);
+  };
+
+  const getCropData = () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+      const message4 = cropperRef.current?.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+      uploadString(storageRef, message4, "data_url").then((snapshot) => {
+        console.log(snapshot);
+      });
+    }
   };
 
   return (
@@ -55,6 +73,7 @@ const Modal = ({ setShow }) => {
             setImage={setImage}
             cropperRef={cropperRef}
             image={image}
+            getCropData={getCropData}
           />
         )}
       </div>

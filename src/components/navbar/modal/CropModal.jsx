@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { Cropper } from "react-cropper";
 
-const CropModal = ({ setImage, cropperRef, image }) => {
+const CropModal = ({ setImage, cropperRef, image, getCropData }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-screen  flex items-center justify-center">
-      <div className="w-1/3 bg-white relative rounded-md p-4">
+      <div className="w-1/3 bg-[#f6dada] relative rounded-md p-4">
         <div className="">
           <div
             onClick={() => setImage()}
@@ -39,7 +39,7 @@ const CropModal = ({ setImage, cropperRef, image }) => {
           />
         </div>
         <h4
-          onClick={() => setImage()}
+          onClick={getCropData}
           className="text-center text-lg py-2 bg-[#6CD0FB] cursor-pointer rounded-md mt-2 font-bold"
         >
           Upload Photo
