@@ -3,7 +3,14 @@ import { CrossIcon } from "../../../assets/svg/CrossIcon";
 import { GallaryIcon } from "../../../assets/svg/GallaryIcon";
 import CropModal from "./CropModal";
 import "cropperjs/dist/cropper.css";
-import { getStorage, ref, uploadString } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadString,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+
 import { useSelector } from "react-redux";
 
 const Modal = ({ setShow }) => {
@@ -37,7 +44,9 @@ const Modal = ({ setShow }) => {
         .getCroppedCanvas()
         .toDataURL();
       uploadString(storageRef, message4, "data_url").then((snapshot) => {
-        console.log(snapshot);
+        getDownloadURL(storageRef).then((downloadURL) => {
+          console.log(downloadURL);
+        });
       });
     }
   };
