@@ -5,12 +5,14 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
+import { getDatabase, ref, set } from "firebase/database";
 
 let initialState = {
   fullName: "",
@@ -28,6 +30,7 @@ const Ragistration = () => {
   let [loader, setLoader] = useState(false);
   const auth = getAuth();
   let navigate = useNavigate();
+  const db = getDatabase();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -44,24 +47,36 @@ const Ragistration = () => {
       formik.values.password,
       setLoader(true)
     )
-      .then(() => {
-        sendEmailVerification(auth.currentUser)
+      .then((item) => {
+        updateProfile(auth.currentUser, {
+          displayName: formik.values.fullName,
+        })
           .then(() => {
-            toast.success("Confirm your email varification", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
-            setTimeout(() => {
-              navigate("/login");
-            }, 3000);
-            setLoader(false);
+            sendEmailVerification(auth.currentUser)
+              .then(() => {
+                toast.success("Confirm your email varification", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
+                setTimeout(() => {
+                  navigate("/login");
+                }, 3000);
+                setLoader(false);
+              })
+              .then(() => {
+                set(ref(db, "users/" + item.user.uid), {
+                  username: item.user.displayName,
+                  email: item.user.email,
+                });
+              });
           })
+
           .catch((error) => {
             toast.error(error.message, {
               position: "top-right",
