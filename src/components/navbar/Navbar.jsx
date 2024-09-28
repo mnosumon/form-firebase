@@ -13,6 +13,7 @@ import AvaterImg from "../../assets/image/avarar.jpg";
 const Navbar = () => {
   let [show, setShow] = useState(false);
   const userUid = useSelector((state) => state.login.user);
+
   let location = useLocation();
   const auth = getAuth();
   let navigate = useNavigate();
@@ -51,7 +52,7 @@ const Navbar = () => {
               {createPortal(show && <Modal setShow={setShow} />, document.body)}
             </div>
             <div className="">
-              <h2 className="text-white">Md Nuruddin Osman</h2>
+              <h2 className="text-white">{userUid.displayName}</h2>
             </div>
           </div>
         </div>
