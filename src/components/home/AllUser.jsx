@@ -3,13 +3,20 @@ import { AddFriendIcon } from "../../assets/svg/AddFriendIcon";
 import Title2 from "../utilities/Title2";
 import { getDownloadURL, getStorage, ref as Ref } from "firebase/storage";
 import { useSelector } from "react-redux";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  push,
+  remove,
+} from "firebase/database";
 import AvaterImg from "../../assets/image/avarar.jpg";
 
 const AllUser = () => {
   let [users, setUsers] = useState([]);
   let [cancelReq, setCancelReq] = useState([]);
-  console.log(cancelReq);
+  let [cancelReqFind, setCancelReqFind] = useState([]);
 
   const user = useSelector((state) => state.login.user);
 
@@ -60,12 +67,34 @@ const AllUser = () => {
     const starCountRef = ref(db, "friendReqUserDetails/");
     onValue(starCountRef, (snapshot) => {
       const cancelReqList = [];
+      const cancelReqFind = [];
       snapshot.forEach((item) => {
         cancelReqList.push(item.val().senderID + item.val().recieverID);
+        cancelReqFind.push({ ...item.val(), id: item.key });
       });
       setCancelReq(cancelReqList);
+      setCancelReqFind(cancelReqFind);
     });
   }, [db]);
+
+  // useEffect(() => {
+  //   const starCountRef = ref(db, "friendReqUserDetails/");
+  //   onValue(starCountRef, (snapshot) => {
+  //     const cancelReqFind = [];
+  //     snapshot.forEach((item) => {
+  //       cancelReqFind.push({ ...item.val(), id: item.key });
+  //     });
+  //     setCancelReqFind(cancelReqFind);
+  //   });
+  // }, [db]);
+
+  const handleCancelReq = (data) => {
+    const findData = cancelReqFind.find(
+      (item) => item.senderID === user.uid && item.recieverID === data.id
+    );
+
+    remove(ref(db, `friendReqUserDetails/${findData.id}`));
+  };
 
   return (
     <div className="mt-7 px-7">
@@ -83,7 +112,10 @@ const AllUser = () => {
           <div className="">
             {cancelReq.includes(item.id + user.uid) ||
             cancelReq.includes(user.uid + item.id) ? (
-              <button className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md">
+              <button
+                onClick={() => handleCancelReq(item)}
+                className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md"
+              >
                 Cancel Request
               </button>
             ) : (
