@@ -8,6 +8,8 @@ import AvaterImg from "../../assets/image/avarar.jpg";
 
 const AllUser = () => {
   let [users, setUsers] = useState([]);
+  let [cancelReq, setCancelReq] = useState([]);
+  console.log(cancelReq);
 
   const user = useSelector((state) => state.login.user);
 
@@ -44,8 +46,6 @@ const AllUser = () => {
   }, [db, user.uid, storage]);
 
   const handleReqSend = (item) => {
-    console.log(item);
-
     set(push(ref(db, "friendReqUserDetails/")), {
       senderName: user.displayName,
       senderID: user.uid,
@@ -55,6 +55,17 @@ const AllUser = () => {
       recieverPhoto: item.photoURL ?? AvaterImg,
     });
   };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "friendReqUserDetails/");
+    onValue(starCountRef, (snapshot) => {
+      const cancelReqList = [];
+      snapshot.forEach((item) => {
+        cancelReqList.push(item.val().senderID + item.val().recieverID);
+      });
+      setCancelReq(cancelReqList);
+    });
+  }, [db]);
 
   return (
     <div className="mt-7 px-7">
@@ -69,8 +80,11 @@ const AllUser = () => {
               <h3>{item.username}</h3>
             </div>
           </div>
-          <div onClick={() => handleReqSend(item)} className="cursor-pointer">
-            <AddFriendIcon />
+          <div className="">
+            <button className="cursor-pointer">Cancel Request</button>
+            <div onClick={() => handleReqSend(item)} className="cursor-pointer">
+              <AddFriendIcon />
+            </div>
           </div>
         </div>
       ))}
