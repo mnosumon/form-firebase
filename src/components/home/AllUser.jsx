@@ -81,10 +81,19 @@ const AllUser = () => {
             </div>
           </div>
           <div className="">
-            <button className="cursor-pointer">Cancel Request</button>
-            <div onClick={() => handleReqSend(item)} className="cursor-pointer">
-              <AddFriendIcon />
-            </div>
+            {cancelReq.includes(item.id + user.uid) ||
+            cancelReq.includes(user.uid + item.id) ? (
+              <button className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md">
+                Cancel Request
+              </button>
+            ) : (
+              <div
+                onClick={() => handleReqSend(item)}
+                className="cursor-pointer"
+              >
+                <AddFriendIcon />
+              </div>
+            )}
           </div>
         </div>
       ))}
