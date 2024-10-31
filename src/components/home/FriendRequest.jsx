@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Title2 from "../utilities/Title2";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 const FriendRequest = () => {
+  const db = getDatabase();
+  useEffect(() => {
+    const starCountRef = ref(db, "posts/" + postId + "/starCount");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      updateStarCount(postElement, data);
+    });
+  }, []);
+
   return (
     <div className="mt-4 px-6">
       <Title2 content="Friend Reques" />

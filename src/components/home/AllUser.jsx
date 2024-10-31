@@ -92,8 +92,9 @@ const AllUser = () => {
     const findData = cancelReqFind.find(
       (item) => item.senderID === user.uid && item.recieverID === data.id
     );
-
-    remove(ref(db, `friendReqUserDetails/${findData.id}`));
+    if (findData) {
+      remove(ref(db, "friendReqUserDetails/" + findData.id));
+    }
   };
 
   return (
@@ -109,6 +110,7 @@ const AllUser = () => {
               <h3>{item.username}</h3>
             </div>
           </div>
+
           <div className="">
             {cancelReq.includes(item.id + user.uid) ||
             cancelReq.includes(user.uid + item.id) ? (
