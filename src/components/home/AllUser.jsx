@@ -26,26 +26,26 @@ const AllUser = () => {
   useEffect(() => {
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
-      let user = [];
+      let userList = [];
       snapshot.forEach((item) => {
         if (item.key !== user.uid) {
           getDownloadURL(Ref(storage, item.key))
             .then((downloadURL) => {
-              user.push({
+              userList.push({
                 ...item.val(),
                 id: item.key,
                 photoURL: downloadURL,
               });
             })
             .catch((error) => {
-              user.push({
+              userList.push({
                 ...item.val(),
                 id: item.key,
                 photoURL: null,
               });
             })
             .then(() => {
-              setUsers([...user]);
+              setUsers([...userList]);
             });
         }
       });
