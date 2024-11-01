@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 const FriendRequest = () => {
   const [friendList, setFriendList] = useState([]);
-  console.log(friendList.length);
 
   const user = useSelector((state) => state.login.user);
   const db = getDatabase();

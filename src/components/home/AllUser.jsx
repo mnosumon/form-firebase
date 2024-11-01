@@ -17,6 +17,8 @@ const AllUser = () => {
   let [users, setUsers] = useState([]);
   let [cancelReq, setCancelReq] = useState([]);
   let [cancelReqFind, setCancelReqFind] = useState([]);
+  let [requestedUser, setURequestedUser] = useState([]);
+  console.log(requestedUser);
 
   const user = useSelector((state) => state.login.user);
 
@@ -77,17 +79,6 @@ const AllUser = () => {
     });
   }, [db]);
 
-  // useEffect(() => {
-  //   const starCountRef = ref(db, "friendReqUserDetails/");
-  //   onValue(starCountRef, (snapshot) => {
-  //     const cancelReqFind = [];
-  //     snapshot.forEach((item) => {
-  //       cancelReqFind.push({ ...item.val(), id: item.key });
-  //     });
-  //     setCancelReqFind(cancelReqFind);
-  //   });
-  // }, [db]);
-
   const handleCancelReq = (data) => {
     const findData = cancelReqFind.find(
       (item) => item.senderID === user.uid && item.recieverID === data.id
@@ -96,6 +87,23 @@ const AllUser = () => {
       remove(ref(db, "friendReqUserDetails/" + findData.id));
     }
   };
+
+  // jodi (User === reciever) hoy tahole sender ke dekhate cacchi na
+
+  // useEffect(() => {
+  //   const starCountRef = ref(db, "friendReqUserDetails/");
+  //   onValue(starCountRef, (snapshot) => {
+  //     const userEmpty = [];
+  //     snapshot.forEach((item) => {
+  //       const datas = item.val();
+  //       // userEmpty.push(datas.filter((data) => data.recieverID !== user.uid));
+  //       if (datas.recieverID === user.uid) {
+  //         userEmpty.push(datas);
+  //       }
+  //     });
+  //     setURequestedUser(userEmpty);
+  //   });
+  // }, [db, user.uid]);
 
   return (
     <div className="mt-7 px-7">
