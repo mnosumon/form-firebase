@@ -8,7 +8,7 @@ import {
   push,
   remove,
 } from "firebase/database";
-
+import AvaterImg from "../../assets/image/avarar.jpg";
 import { useSelector } from "react-redux";
 
 const FriendRequest = () => {
