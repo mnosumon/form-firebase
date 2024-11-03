@@ -83,7 +83,7 @@ const AllUser = () => {
     onValue(starCountRef, (snapshot) => {
       const friend = [];
       snapshot.forEach((item) => {
-        friend.push({ ...item.val(), id: item.key });
+        friend.push(item.val().senderID + item.val().recieverID);
       });
       setFriends(friend);
     });
@@ -128,10 +128,14 @@ const AllUser = () => {
               <h3>{item.username}</h3>
             </div>
           </div>
-          {console.log(friends.id + item.id)}
           <div className="">
-            {cancelReq.includes(item.id + user.uid) ||
-            cancelReq.includes(user.uid + item.id) ? (
+            {friends.includes(item.id + user.uid) ||
+            friends.includes(user.uid + item.id) ? (
+              <button className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md">
+                Friend
+              </button>
+            ) : cancelReq.includes(item.id + user.uid) ||
+              cancelReq.includes(user.uid + item.id) ? (
               <button
                 onClick={() => handleCancelReq(item)}
                 className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md"
