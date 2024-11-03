@@ -129,8 +129,13 @@ const AllUser = () => {
             </div>
           </div>
           <div className="">
-            {cancelReq.includes(item.id + user.uid) ||
-            cancelReq.includes(user.uid + item.id) ? (
+            {friends.includes(item.id + user.uid) ||
+            friends.includes(user.uid + item.id) ? (
+              <button className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md">
+                Friend
+              </button>
+            ) : cancelReq.includes(item.id + user.uid) ||
+              cancelReq.includes(user.uid + item.id) ? (
               <button
                 onClick={() => handleCancelReq(item)}
                 className="cursor-pointer bg-orange-500 px-2 py-1 text-sm rounded-md"
