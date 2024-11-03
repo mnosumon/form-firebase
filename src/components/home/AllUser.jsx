@@ -17,8 +17,7 @@ const AllUser = () => {
   let [users, setUsers] = useState([]);
   let [cancelReq, setCancelReq] = useState([]);
   let [cancelReqFind, setCancelReqFind] = useState([]);
-  let [requestedUser, setURequestedUser] = useState([]);
-  console.log(requestedUser);
+  let [friends, setFriends] = useState([]);
 
   const user = useSelector((state) => state.login.user);
 
@@ -79,6 +78,17 @@ const AllUser = () => {
     });
   }, [db]);
 
+  useEffect(() => {
+    const starCountRef = ref(db, "friends/");
+    onValue(starCountRef, (snapshot) => {
+      const friend = [];
+      snapshot.forEach((item) => {
+        friend.push({ ...item.val(), id: item.key });
+      });
+      setFriends(friend);
+    });
+  }, [db]);
+
   const handleCancelReq = (data) => {
     const findData = cancelReqFind.find(
       (item) => item.senderID === user.uid && item.recieverID === data.id
@@ -118,7 +128,7 @@ const AllUser = () => {
               <h3>{item.username}</h3>
             </div>
           </div>
-
+          {console.log(friends.id + item.id)}
           <div className="">
             {cancelReq.includes(item.id + user.uid) ||
             cancelReq.includes(user.uid + item.id) ? (
