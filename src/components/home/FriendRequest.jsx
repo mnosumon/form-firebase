@@ -15,6 +15,7 @@ const FriendRequest = () => {
   const [friendList, setFriendList] = useState([]);
 
   const user = useSelector((state) => state.login.user);
+
   const db = getDatabase();
   useEffect(() => {
     const starCountRef = ref(db, "friendReqUserDetails/");
@@ -46,7 +47,7 @@ const FriendRequest = () => {
       {friendList.length === 0 ? (
         <h3>Friend list empty</h3>
       ) : (
-        friendList?.map((item, i) => (
+        friendList.map((item, i) => (
           <div key={i} className="flex justify-between items-center my-4">
             <div className="flex gap-3 items-center">
               <div className="w-12 h-12 rounded-full overflow-hidden">

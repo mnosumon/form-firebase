@@ -14,7 +14,12 @@ const Friends = () => {
     onValue(starCountRef, (snapshot) => {
       const friendsArr = [];
       snapshot.forEach((item) => {
-        friendsArr.push({ ...item.val(), id: item.key });
+        if (
+          user.uid === item.val().senderID ||
+          user.uid === item.val().recieverID
+        ) {
+          friendsArr.push({ ...item.val(), id: item.key });
+        }
       });
       setFriends(friendsArr);
     });
