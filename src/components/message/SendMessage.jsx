@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avarar.jpg";
 import { getDatabase, push, ref, set } from "firebase/database";
 import { onValue } from "firebase/database";
+import { formatDistance, subDays } from "date-fns";
 
 const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
@@ -60,21 +61,31 @@ const SendMessage = () => {
           <h3 className="text-white">{singleFriend.name}</h3>
         </div>
       </div>
-      <div className="h-[500px] shadow-md bg-red-200 px-5 py-1 overflow-y-auto">
+      <div className="h-[500px] shadow-md bg-red-200 px-5 pb-2 overflow-y-auto">
         {singleFriend?.status === "single"
           ? message.map((item, i) => (
               <div key={i}>
                 {item.whoSenderId === user.uid ? (
-                  <div className="ml-auto mt-2 flex justify-end">
+                  <div className="ml-auto mt-2 flex flex-col items-end">
                     <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
                       {item.text}
                     </p>
+                    <span className="text-xs text-[#4d4d4d]">
+                      {formatDistance(item.time, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </span>
                   </div>
                 ) : (
-                  <div className="mr-auto mt-2 flex justify-start">
+                  <div className="mr-auto mt-2 flex flex-col items-start">
                     <p className="max-w-[60%] bg-slate-400 font-sans px-2 py-1 rounded-md break-words">
                       {item.text}
                     </p>
+                    <span className="text-xs text-[#4d4d4d]">
+                      {formatDistance(item.time, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </span>
                   </div>
                 )}
               </div>
