@@ -3,11 +3,14 @@ import Title2 from "../utilities/Title2";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avarar.jpg";
+import { Link, useLocation } from "react-router-dom";
 
 const Friends = () => {
   const [friends, setFriends] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
   const user = useSelector((state) => state.login.user);
   const db = getDatabase();
+  const location = useLocation();
 
   useEffect(() => {
     const starCountRef = ref(db, "friends/");
@@ -24,11 +27,26 @@ const Friends = () => {
       setFriends(friendsArr);
     });
   }, [db]);
+
+  const handleActive = (id) => {
+    setSelectedId(id);
+  };
+
   return (
     <div className="mt-4 px-6">
       <Title2 content="Friends" />
       {friends?.map((item) => (
-        <div key={item.id} className="flex justify-between items-center my-4">
+        <div
+          key={item.id}
+          onClick={() => handleActive(item.id)}
+          className={`flex justify-between items-center my-4 rounded-md ${
+            selectedId === item.id ? "bg-green-300" : "bg-transparent"
+          }  ${
+            location.pathname === "/message"
+              ? "cursor-pointer hover:bg-green-300 px-2 py-1"
+              : ""
+          }`}
+        >
           <div className="flex gap-3 items-center">
             <div className="w-12 h-12 rounded-full overflow-hidden">
               {user.uid === item.recieverID ? (
@@ -46,9 +64,16 @@ const Friends = () => {
             </div>
           </div>
           <div className="flex gap-x-3">
-            <button className="text-sm font-mono font-normal py-2 px-3 bg-[#4A81D3] text-white rounded-md">
-              Message
-            </button>
+            {location.pathname == "/" ? (
+              <Link
+                to="/message"
+                className="text-sm font-mono font-normal py-2 px-3 bg-[#4A81D3] text-white rounded-md"
+              >
+                Message
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ))}

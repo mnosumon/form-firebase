@@ -1,6 +1,7 @@
 import React from "react";
-import Friends from "../../components/message/Friends";
+
 import SendMessage from "../../components/message/SendMessage";
+import Friends from "../../components/home/Friends";
 
 const Message = () => {
   return (
