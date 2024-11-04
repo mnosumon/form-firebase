@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Title2 from "../utilities/Title2";
 import { getDatabase, ref, onValue } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avarar.jpg";
 import { Link, useLocation } from "react-router-dom";
+import { singleFriend } from "../../features/slice/activeSingleSlice/ActiveSingleSlice";
 
 const Friends = () => {
   const [friends, setFriends] = useState([]);
@@ -11,6 +12,7 @@ const Friends = () => {
   const user = useSelector((state) => state.login.user);
   const db = getDatabase();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const starCountRef = ref(db, "friends/");
@@ -28,8 +30,30 @@ const Friends = () => {
     });
   }, [db]);
 
-  const handleActive = (id) => {
-    setSelectedId(id);
+  const handleActiveAndDispatch = (data) => {
+    setSelectedId(data.id);
+    console.log(data.recieverID);
+    console.log(user.uid);
+
+    if (user.uid === data.recieverID) {
+      dispatch(
+        singleFriend({
+          status: "single",
+          id: data.senderID,
+          name: data.senderName,
+          photo: data.senderPhoto,
+        })
+      );
+    } else {
+      dispatch(
+        singleFriend({
+          status: "single",
+          id: data.recieverID,
+          name: data.recieverName,
+          photo: data.recieverPhoto,
+        })
+      );
+    }
   };
 
   return (
@@ -38,7 +62,7 @@ const Friends = () => {
       {friends?.map((item) => (
         <div
           key={item.id}
-          onClick={() => handleActive(item.id)}
+          onClick={() => handleActiveAndDispatch(item)}
           className={`flex justify-between items-center my-4 rounded-md ${
             selectedId === item.id ? "bg-green-300" : "bg-transparent"
           }  ${
