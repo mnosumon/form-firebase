@@ -10,12 +10,10 @@ const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
   const user = useSelector((state) => state.login.user);
   const [text, setText] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState([]);
   const timeSystem = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()}  ${new Date().getHours()}:${new Date().getMinutes()}`;
-
-  console.log(message);
 
   const db = getDatabase();
 
@@ -42,14 +40,15 @@ const SendMessage = () => {
         if (
           (user.uid === datas.whoSenderId &&
             singleFriend.id === datas.whoRecieverId) ||
-          (user.uid === datas.whoRecieverId && singleFriend.id === whoSenderId)
+          (user.uid === datas.whoRecieverId &&
+            singleFriend.id === datas.whoSenderId)
         ) {
           singleFriendArr.push(datas);
         }
       });
       setMessage(singleFriendArr);
     });
-  }, [db, user.uid, singleFriend.id]);
+  }, [db, user.uid, singleFriend]);
 
   return (
     <div className="pt-2 pr-5">
@@ -61,40 +60,26 @@ const SendMessage = () => {
           <h3 className="text-white">{singleFriend.name}</h3>
         </div>
       </div>
-      <div className="w-full h-[500px] shadow-md bg-red-200 px-5 py-1 overflow-y-auto">
-        <div className="mt-2 flex justify-end">
-          <p className="w-3/5 bg-blue-400 font-mono px-2 py-1 rounded-md max-w-fit">
-            Lorem ipsum sit amet consectetur adipisicing elit. Natus doloribus
-            soluta ratione eveniet itaque accusantium, animi, asperiores sed,
-            consectetur adipisicing elit. Repellendus quibusdam, saepe
-            reprehenderit sapiente qui sequi nobis iste dolorum facilis quasi
-            placeat reiciendis, porro minus voluptate perferendis illum ullam
-            rerum praesentium.consectetur adipisicing elit. Repellendus
-            quibusdam, saepe reprehenderit sapiente qui sequi nobis iste dolorum
-            facilis quasi placeat reiciendis, porro minus voluptate perferendis
-            illum ullam rerum praesentium.
-          </p>
-        </div>
-        <div className="mt-2 flex justify-start">
-          <p className="w-3/5 bg-slate-400 font-mono px-2 py-1 rounded-md max-w-fit">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-            doloribus soluta ratione eveniet itaque accusantium,
-            animi,consectetur adipisicing elit. Repellendus quibusdam, saepe
-            reprehenderit sapiente qui sequi nobis iste dolorum facilis quasi
-            placeat reiciendis, porro minus voluptate perferendis illum ullam
-            rerum praesentium.
-          </p>
-        </div>
-        <div className="mt-2 flex justify-end">
-          <p className="w-3/5 bg-blue-400 font-mono px-2 py-1 rounded-md max-w-fit">
-            Lorem ipsum sit amet consectetur adipisicing elit. Natus doloribus
-            soluta ratione eveniet itaque accusantium, animi, asperiores sed,
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Repellendus quibusdam, saepe reprehenderit sapiente qui sequi nobis
-            iste dolorum facilis quasi placeat reiciendis, porro minus voluptate
-            perferendis illum ullam rerum praesentium.
-          </p>
-        </div>
+      <div className="h-[500px] shadow-md bg-red-200 px-5 py-1 overflow-y-auto">
+        {singleFriend?.status === "single"
+          ? message.map((item, i) => (
+              <div key={i}>
+                {item.whoSenderId === user.uid ? (
+                  <div className="ml-auto mt-2 flex justify-end">
+                    <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
+                      {item.text}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="mr-auto mt-2 flex justify-start">
+                    <p className="max-w-[60%] bg-slate-400 font-sans px-2 py-1 rounded-md break-words">
+                      {item.text}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))
+          : ""}
       </div>
       <div className="bg-[#F5F5F5] shadow-md rounded-b-md">
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
