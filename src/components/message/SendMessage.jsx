@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Imoji } from "../../assets/svg/Imoji";
 import { GallaryIcon } from "../../assets/svg/GallaryIcon";
 import { useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avarar.jpg";
 import { getDatabase, push, ref, set } from "firebase/database";
-import { date } from "yup";
+import { onValue } from "firebase/database";
 
 const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
   const user = useSelector((state) => state.login.user);
   const [text, setText] = useState("");
-  const timeFunction = `${new Date().getFullYear()}-${
+  const [message, setMessage] = useState("");
+  const timeSystem = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()}  ${new Date().getHours()}:${new Date().getMinutes()}`;
+
+  console.log(message);
 
   const db = getDatabase();
 
@@ -24,11 +27,30 @@ const SendMessage = () => {
         whoRecieverId: singleFriend.id,
         whoRecieverName: singleFriend.name,
         text: text,
-        time: timeFunction,
+        time: timeSystem,
       });
     }
     setText("");
   };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "singleMessage/");
+    onValue(starCountRef, (snapshot) => {
+      const singleFriendArr = [];
+      snapshot.forEach((item) => {
+        const datas = item.val();
+        if (
+          (user.uid === datas.whoSenderId &&
+            singleFriend.id === datas.whoRecieverId) ||
+          (user.uid === datas.whoRecieverId && singleFriend.id === whoSenderId)
+        ) {
+          singleFriendArr.push(datas);
+        }
+      });
+      setMessage(singleFriendArr);
+    });
+  }, [db, user.uid, singleFriend.id]);
+
   return (
     <div className="pt-2 pr-5">
       <div className="bg-[#232323] flex items-center gap-x-5 px-10 py-3 rounded-t-md">
