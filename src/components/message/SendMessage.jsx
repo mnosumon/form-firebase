@@ -1,14 +1,19 @@
 import React from "react";
 import { Imoji } from "../../assets/svg/Imoji";
 import { GallaryIcon } from "../../assets/svg/GallaryIcon";
+import { useSelector } from "react-redux";
+import AvaterImg from "../../assets/image/avarar.jpg";
 
 const SendMessage = () => {
+  const user = useSelector((state) => state.single.value);
   return (
     <div className="pt-2 pr-5">
       <div className="bg-[#232323] flex items-center gap-x-5 px-10 py-3 rounded-t-md">
-        <div className="w-16 h-16 rounded-full bg-[#D9D9D9]"></div>
+        <div className="w-12 h-12 rounded-full overflow-hidden">
+          <img src={user.photo || AvaterImg} />
+        </div>
         <div className="">
-          <h3 className="text-white">Md Nuruddin Osman</h3>
+          <h3 className="text-white">{user.name}</h3>
         </div>
       </div>
       <div className="w-full h-[500px] shadow-md bg-red-200 px-5 py-1 overflow-y-auto">

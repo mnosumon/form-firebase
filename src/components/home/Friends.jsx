@@ -32,8 +32,6 @@ const Friends = () => {
 
   const handleActiveAndDispatch = (data) => {
     setSelectedId(data.id);
-    console.log(data.recieverID);
-    console.log(user.uid);
 
     if (user.uid === data.recieverID) {
       dispatch(
