@@ -44,9 +44,27 @@ const Friends = () => {
           photo: data.senderPhoto,
         })
       );
+      localStorage.setItem(
+        "single",
+        JSON.stringify({
+          status: "single",
+          id: data.senderID,
+          name: data.senderName,
+          photo: data.senderPhoto,
+        })
+      );
     } else {
       dispatch(
         singleFriend({
+          status: "single",
+          id: data.recieverID,
+          name: data.recieverName,
+          photo: data.recieverPhoto,
+        })
+      );
+      localStorage.setItem(
+        "single",
+        JSON.stringify({
           status: "single",
           id: data.recieverID,
           name: data.recieverName,
