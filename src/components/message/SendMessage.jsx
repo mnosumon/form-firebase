@@ -11,7 +11,41 @@ const SendMessage = () => {
           <h3 className="text-white">Md Nuruddin Osman</h3>
         </div>
       </div>
-      <div className="w-full h-[528px] shadow-md bg-red-200"></div>
+      <div className="w-full h-[500px] shadow-md bg-red-200 px-5 py-1 overflow-y-auto">
+        <div className="mt-2 flex justify-end">
+          <p className="w-3/5 bg-blue-400 font-mono px-2 py-1 rounded-md max-w-fit">
+            Lorem ipsum sit amet consectetur adipisicing elit. Natus doloribus
+            soluta ratione eveniet itaque accusantium, animi, asperiores sed,
+            consectetur adipisicing elit. Repellendus quibusdam, saepe
+            reprehenderit sapiente qui sequi nobis iste dolorum facilis quasi
+            placeat reiciendis, porro minus voluptate perferendis illum ullam
+            rerum praesentium.consectetur adipisicing elit. Repellendus
+            quibusdam, saepe reprehenderit sapiente qui sequi nobis iste dolorum
+            facilis quasi placeat reiciendis, porro minus voluptate perferendis
+            illum ullam rerum praesentium.
+          </p>
+        </div>
+        <div className="mt-2 flex justify-start">
+          <p className="w-3/5 bg-slate-400 font-mono px-2 py-1 rounded-md max-w-fit">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
+            doloribus soluta ratione eveniet itaque accusantium,
+            animi,consectetur adipisicing elit. Repellendus quibusdam, saepe
+            reprehenderit sapiente qui sequi nobis iste dolorum facilis quasi
+            placeat reiciendis, porro minus voluptate perferendis illum ullam
+            rerum praesentium.
+          </p>
+        </div>
+        <div className="mt-2 flex justify-end">
+          <p className="w-3/5 bg-blue-400 font-mono px-2 py-1 rounded-md max-w-fit">
+            Lorem ipsum sit amet consectetur adipisicing elit. Natus doloribus
+            soluta ratione eveniet itaque accusantium, animi, asperiores sed,
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Repellendus quibusdam, saepe reprehenderit sapiente qui sequi nobis
+            iste dolorum facilis quasi placeat reiciendis, porro minus voluptate
+            perferendis illum ullam rerum praesentium.
+          </p>
+        </div>
+      </div>
       <div className="bg-[#F5F5F5] shadow-md rounded-b-md">
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
           <div className="flex justify-between items-center w-[10%] cursor-pointer">
