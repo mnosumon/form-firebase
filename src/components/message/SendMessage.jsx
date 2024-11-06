@@ -7,6 +7,7 @@ import { getDatabase, push, ref, set } from "firebase/database";
 import { onValue } from "firebase/database";
 import { formatDistance, subDays } from "date-fns";
 import Nuture01 from "../../assets/image/nutute01.jpg";
+import Nuture02 from "../../assets/image/nutute02.jpg";
 
 const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
@@ -68,6 +69,15 @@ const SendMessage = () => {
             <img
               className="w-full h-auto object-cover"
               src={Nuture01}
+              alt="Nuture01"
+            />
+          </div>
+        </div>
+        <div className="mr-auto mt-2 flex flex-col items-start">
+          <div className="max-w-[60%] rounded-md overflow-hidden">
+            <img
+              className="w-full h-auto object-cover"
+              src={Nuture02}
               alt="Nuture01"
             />
           </div>
