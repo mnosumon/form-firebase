@@ -64,7 +64,36 @@ const SendMessage = () => {
         </div>
       </div>
       <div className="h-[500px] shadow-md bg-red-200 px-5 pb-2 overflow-y-auto">
-        <div className="ml-auto mt-2 flex flex-col items-end">
+        {singleFriend?.status === "single"
+          ? message.map((item, i) => (
+              <div key={i}>
+                {item.whoSenderId === user.uid ? (
+                  <div className="ml-auto mt-2 flex flex-col items-end">
+                    <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
+                      {item.text}
+                    </p>
+                    <span className="text-xs text-[#4d4d4d]">
+                      {formatDistance(item.time, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="mr-auto mt-2 flex flex-col items-start">
+                    <p className="max-w-[60%] bg-slate-400 font-sans px-2 py-1 rounded-md break-words">
+                      {item.text}
+                    </p>
+                    <span className="text-xs text-[#4d4d4d]">
+                      {formatDistance(item.time, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))
+          : ""}
+        {/* <div className="ml-auto mt-2 flex flex-col items-end">
           <div className="max-w-[60%] rounded-md overflow-hidden">
             <img
               className="w-full h-auto object-cover"
@@ -81,7 +110,7 @@ const SendMessage = () => {
               alt="Nuture01"
             />
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="bg-[#F5F5F5] shadow-md rounded-b-md">
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
