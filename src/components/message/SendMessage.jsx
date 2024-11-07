@@ -77,11 +77,21 @@ const SendMessage = () => {
     setText(text + data.emoji);
     setEmojiShow(false);
   };
+  // useEffect(() => {
+  //   scrollRef.current?.scrollIntoView({
+  //     behavior: "smooth",
+  //   });
+  // }, [message]);
+
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, [text]);
+    if (message.length > 0) {
+      setTimeout(() => {
+        scrollRef.current?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 1000);
+    }
+  }, [message]);
 
   const handleMediaSent = (e) => {
     const mediaFile = e.target.files[0];
@@ -133,49 +143,69 @@ const SendMessage = () => {
           ? message.map((item, i) => (
               <div ref={scrollRef} key={i}>
                 {item.whoSenderId === user.uid ? (
-                  <div className="ml-auto mt-2 flex flex-col items-end">
-                    <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
-                      {item.text}
-                    </p>
-                    <span className="text-xs text-[#4d4d4d]">
-                      {formatDistance(item.time, new Date(), {
-                        addSuffix: true,
-                      })}
-                    </span>
+                  <div>
+                    {item.image ? (
+                      <div className="ml-auto mt-2 flex flex-col items-end">
+                        <div className="max-w-[60%] rounded-md overflow-hidden">
+                          <img
+                            className="w-full h-auto object-cover"
+                            src={item.image}
+                            alt="Nuture01"
+                          />
+                        </div>
+                        <span className="text-xs text-[#4d4d4d]">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="ml-auto mt-2 flex flex-col items-end">
+                        <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
+                          {item.text}
+                        </p>
+                        <span className="text-xs text-[#4d4d4d]">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  <div className="mr-auto mt-2 flex flex-col items-start">
-                    <p className="max-w-[60%] bg-slate-400 font-sans px-2 py-1 rounded-md break-words">
-                      {item.text}
-                    </p>
-                    <span className="text-xs text-[#4d4d4d]">
-                      {formatDistance(item.time, new Date(), {
-                        addSuffix: true,
-                      })}
-                    </span>
+                  <div className="">
+                    {item.image ? (
+                      <div className="mr-auto mt-2 flex flex-col items-start">
+                        <div className="max-w-[60%] rounded-md overflow-hidden">
+                          <img
+                            className="w-full h-auto object-cover"
+                            src={item.image}
+                            alt="Nuture01"
+                          />
+                        </div>
+                        <span className="text-xs text-[#4d4d4d]">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="mr-auto mt-2 flex flex-col items-start">
+                        <p className="max-w-[60%] bg-slate-400 font-sans px-2 py-1 rounded-md break-words">
+                          {item.text}
+                        </p>
+                        <span className="text-xs text-[#4d4d4d]">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             ))
           : ""}
-        {/* <div className="ml-auto mt-2 flex flex-col items-end">
-          <div className="max-w-[60%] rounded-md overflow-hidden">
-            <img
-              className="w-full h-auto object-cover"
-              src={Nuture01}
-              alt="Nuture01"
-            />
-          </div>
-        </div>
-        <div className="mr-auto mt-2 flex flex-col items-start">
-          <div className="max-w-[60%] rounded-md overflow-hidden">
-            <img
-              className="w-full h-auto object-cover"
-              src={Nuture02}
-              alt="Nuture01"
-            />
-          </div>
-        </div> */}
       </div>
       <div className="bg-[#F5F5F5] shadow-md rounded-b-md">
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
