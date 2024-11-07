@@ -59,9 +59,15 @@ const SendMessage = () => {
   const handleEmojiShow = () => {
     setEmojiShow(!emojiShow);
   };
+  const handleEnterBtn = (e) => {
+    if (e.key == "Enter") {
+      handleMessage();
+    }
+  };
   const handleEmojiPicker = (data) => {
     setText(text + data.emoji);
     setEmojiShow(false);
+    handleEnterBtn();
   };
   useEffect(() => {
     scrollRef.current?.scrollIntoView({
@@ -145,6 +151,7 @@ const SendMessage = () => {
           </div>
           <div className="w-3/4">
             <input
+              onKeyUp={handleEnterBtn}
               value={text}
               onChange={(e) => setText(e.target.value)}
               className="w-full py-3 px-4 outline-none"
