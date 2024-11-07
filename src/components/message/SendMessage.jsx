@@ -8,6 +8,7 @@ import { onValue } from "firebase/database";
 import { formatDistance, subDays } from "date-fns";
 import Nuture01 from "../../assets/image/nutute01.jpg";
 import Nuture02 from "../../assets/image/nutute02.jpg";
+import EmojiPicker from "emoji-picker-react";
 
 const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
@@ -116,7 +117,14 @@ const SendMessage = () => {
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
           <div className="flex justify-between items-center w-[10%] cursor-pointer">
             <Imoji />
-            <GallaryIcon />
+            <div className="">
+              <div className="">
+                <EmojiPicker />
+              </div>
+              <div className="">
+                <GallaryIcon />
+              </div>
+            </div>
           </div>
           <div className="w-3/4">
             <input
