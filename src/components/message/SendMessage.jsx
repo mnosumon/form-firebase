@@ -14,6 +14,7 @@ const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
   const user = useSelector((state) => state.login.user);
   const [text, setText] = useState("");
+  const [emojiShow, setEmojiShow] = useState(false);
   const [message, setMessage] = useState([]);
   const timeSystem = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
@@ -53,6 +54,10 @@ const SendMessage = () => {
       setMessage(singleFriendArr);
     });
   }, [db, user.uid, singleFriend]);
+
+  const handleEmojiShow = () => {
+    setEmojiShow(!emojiShow);
+  };
 
   return (
     <div className="pt-2 pr-5">
@@ -118,10 +123,12 @@ const SendMessage = () => {
           <div className="flex justify-between items-center w-[10%] cursor-pointer">
             <Imoji />
             <div className="">
-              <div className="">
-                <EmojiPicker />
-              </div>
-              <div className="">
+              {emojiShow && (
+                <div className="">
+                  <EmojiPicker />
+                </div>
+              )}
+              <div onClick={handleEmojiShow} className="">
                 <GallaryIcon />
               </div>
             </div>
