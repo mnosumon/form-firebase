@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Imoji } from "../../assets/svg/Imoji";
 import { GallaryIcon } from "../../assets/svg/GallaryIcon";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ const SendMessage = () => {
   const [text, setText] = useState("");
   const [emojiShow, setEmojiShow] = useState(false);
   const [message, setMessage] = useState([]);
+  const scrollRef = useRef();
   const timeSystem = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()}  ${new Date().getHours()}:${new Date().getMinutes()}`;
@@ -60,7 +61,13 @@ const SendMessage = () => {
   };
   const handleEmojiPicker = (data) => {
     setText(text + data.emoji);
+    setEmojiShow(false);
   };
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [text]);
 
   return (
     <div className="pt-2 pr-5">
@@ -75,7 +82,7 @@ const SendMessage = () => {
       <div className="h-[500px] shadow-md bg-red-200 px-5 pb-2 overflow-y-auto">
         {singleFriend?.status === "single"
           ? message.map((item, i) => (
-              <div key={i}>
+              <div ref={scrollRef} key={i}>
                 {item.whoSenderId === user.uid ? (
                   <div className="ml-auto mt-2 flex flex-col items-end">
                     <p className="max-w-[60%] bg-blue-400 font-sans px-2 py-1 rounded-md break-words">
