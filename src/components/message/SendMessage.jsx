@@ -58,6 +58,9 @@ const SendMessage = () => {
   const handleEmojiShow = () => {
     setEmojiShow(!emojiShow);
   };
+  const handleEmojiPicker = (data) => {
+    setText(text + data.emoji);
+  };
 
   return (
     <div className="pt-2 pr-5">
@@ -121,17 +124,17 @@ const SendMessage = () => {
       <div className="bg-[#F5F5F5] shadow-md rounded-b-md">
         <div className="w-3/5 mx-auto flex justify-between items-center py-4">
           <div className="flex justify-between items-center w-[10%] cursor-pointer">
-            <Imoji />
-            <div className="">
+            <div className="relative">
               {emojiShow && (
-                <div className="">
-                  <EmojiPicker />
+                <div className="absolute left-0 bottom-10">
+                  <EmojiPicker onEmojiClick={handleEmojiPicker} />
                 </div>
               )}
               <div onClick={handleEmojiShow} className="">
-                <GallaryIcon />
+                <Imoji />
               </div>
             </div>
+            <GallaryIcon />
           </div>
           <div className="w-3/4">
             <input
