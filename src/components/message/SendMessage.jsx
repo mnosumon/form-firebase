@@ -9,6 +9,12 @@ import { formatDistance, subDays } from "date-fns";
 import Nuture01 from "../../assets/image/nutute01.jpg";
 import Nuture02 from "../../assets/image/nutute02.jpg";
 import EmojiPicker from "emoji-picker-react";
+import {
+  getStorage,
+  ref as Ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 const SendMessage = () => {
   const singleFriend = useSelector((state) => state.single.value);
@@ -17,6 +23,9 @@ const SendMessage = () => {
   const [emojiShow, setEmojiShow] = useState(false);
   const [message, setMessage] = useState([]);
   const scrollRef = useRef();
+  const mediaSentRef = useRef();
+  const storage = getStorage();
+
   const timeSystem = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()}  ${new Date().getHours()}:${new Date().getMinutes()}`;
@@ -67,13 +76,47 @@ const SendMessage = () => {
   const handleEmojiPicker = (data) => {
     setText(text + data.emoji);
     setEmojiShow(false);
-    handleEnterBtn();
   };
   useEffect(() => {
     scrollRef.current?.scrollIntoView({
       behavior: "smooth",
     });
   }, [text]);
+
+  const handleMediaSent = (e) => {
+    const mediaFile = e.target.files[0];
+    const storageRef = Ref(
+      storage,
+      `${user.displayName} = mediaFolder/ ${mediaFile}`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, mediaFile);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (singleFriend?.status === "single") {
+            set(push(ref(db, "singleMessage/")), {
+              whoSenderId: user.uid,
+              whoSenderName: user.displayName,
+              whoRecieverId: singleFriend.id,
+              whoRecieverName: singleFriend.name,
+              text: text,
+              image: downloadURL,
+              time: timeSystem,
+            });
+          }
+          setText("");
+        });
+      }
+    );
+  };
 
   return (
     <div className="pt-2 pr-5">
@@ -147,7 +190,17 @@ const SendMessage = () => {
                 <Imoji />
               </div>
             </div>
-            <GallaryIcon />
+            <div className="">
+              <div onClick={() => mediaSentRef.current.click()} className="">
+                <GallaryIcon />
+              </div>
+              <input
+                onChange={handleMediaSent}
+                ref={mediaSentRef}
+                hidden
+                type="file"
+              />
+            </div>
           </div>
           <div className="w-3/4">
             <input
